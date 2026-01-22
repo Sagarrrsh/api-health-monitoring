@@ -48,7 +48,8 @@ Polls SQS queue for health check messages and executes HTTP validations. Retriev
 
 **How a monitor works from creation to alert:**
 
-<img width="791" height="561" alt="Untitled Diagram drawio (9)" src="https://github.com/user-attachments/assets/3cd4e7be-28d4-4c68-bc57-0adc61757e77" />
+<img width="791" height="561" alt="Untitled Diagram drawio (9)" src="https://github.com/user-attachments/assets/774c4dc2-fa92-41d8-83c3-62cfb80cc696" />
+
 
 
 1. **User creates monitor** → API validates input → Saves to PostgreSQL database
@@ -76,7 +77,7 @@ Polls SQS queue for health check messages and executes HTTP validations. Retriev
 ## Architecture Diagram
 
 
-![ChatGPT Image Jan 19, 2026, 08_28_33 PM](https://github.com/user-attachments/assets/35d3f645-20c0-45b6-a76f-32f0e8b48259)
+![Architecture](https://github.com/user-attachments/assets/859c2e36-f24e-44db-84bc-21a0b1602cd7)
 
 **High-Level Flow:**
 ```
