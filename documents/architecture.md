@@ -1,12 +1,13 @@
 # Architecture 
 
 
-![ Image Jan 19, 2026, 08_28_27 PM](https://github.com/user-attachments/assets/fc62d18c-cda8-4b86-b706-f360e9d89049)
 
+
+![Architecture](https://github.com/user-attachments/assets/2cce2638-01d5-4ef8-933e-d530165a6c7c)
 
 ----
 
 # Workflow
 
+<img width="791" height="561" alt="Untitled Diagram drawio (9)" src="https://github.com/user-attachments/assets/86fd6fd2-f79f-428d-a811-235152220a23" />
 
-<img width="791" height="561" alt="Untitled Diagram drawio (9)" src="https://github.com/user-attachments/assets/6636d7e9-9f67-49e7-aa78-5b21bc5868c9" />
