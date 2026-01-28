@@ -1,0 +1,88 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: hm-postgres
+    environment:
+      POSTGRES_USER: hmuser
+      POSTGRES_PASSWORD: hmpass
+      POSTGRES_DB: health_monitor
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hmuser"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  localstack:
+    image: localstack/localstack:latest
+    container_name: hm-localstack
+    environment:
+      - SERVICES=sqs
+      - AWS_DEFAULT_REGION=us-east-1
+    ports:
+      - "4566:4566"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  db-init:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dbinit
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://hmuser:hmpass@postgres:5432/health_monitor
+    command: ["python", "src/db_init.py"]
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    container_name: hm-api
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://hmuser:hmpass@postgres:5432/health_monitor
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.scheduler
+    container_name: hm-scheduler
+    depends_on:
+      - postgres
+      - localstack
+    environment:
+      DATABASE_URL: postgresql://hmuser:hmpass@postgres:5432/health_monitor
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      SQS_QUEUE_URL: http://localstack:4566/000000000000/health-monitor-queue
+
+  worker:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.worker
+    container_name: hm-worker
+    depends_on:
+      - postgres
+      - localstack
+    environment:
+      DATABASE_URL: postgresql://hmuser:hmpass@postgres:5432/health_monitor
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      SQS_QUEUE_URL: http://localstack:4566/000000000000/health-monitor-queue
+      FAIL_THRESHOLD: 2
+      SUCCESS_THRESHOLD: 2
+
+volumes:
+  pgdata:
