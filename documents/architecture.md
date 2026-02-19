@@ -1,9 +1,7 @@
 # Architecture 
 
+<img width="1357" height="1459" alt="diagram-export-2-7-2026-11_35_20-AM" src="https://github.com/user-attachments/assets/efe7d1a5-3990-49e0-aadf-805b22b0522b" />
 
-
-
-![Architecture](https://github.com/user-attachments/assets/2cce2638-01d5-4ef8-933e-d530165a6c7c)
 
 ----
 
